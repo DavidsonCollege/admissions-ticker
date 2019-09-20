@@ -18,6 +18,7 @@
           .then(students => {
             let studentsArray = students.row.map(student => student.value);
             let studentsString = `Welcome! ${studentsArray.join("; ")}`
+            console.log(`Updated students array:\n${JSON.stringify(studentsArray)}`);
             return studentsString;
           })
           .then(welcomeString => {
@@ -65,9 +66,12 @@
       }
     </style>
   </head>
-  <body onLoad="getStudents();">
+  <body>
     <div class="marquee-container">
       <h1 id="marquee"></h1>
     </div>
+    <script type="text/javascript">
+      setInterval(getStudents(), 5000);
+    </script>
   </body>
 </html>
