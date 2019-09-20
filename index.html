@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <title>Admissions new student ticker</title>
+    <script type="text/javascript">
+      const getStudents = () => {
+        fetch ("https://admission.davidson.edu/manage/query/run?id=1615eb50-ebee-4e8c-a623-ac8915dcbe0f&h=e88865ed-4c1c-182f-72f6-3b87cd9c5ab3&cmd=service&output=json", {
+            method: "GET",
+            cache: "no-cache",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            redirect: "follow",
+            referrer: "no-referrer"
+          })
+          .then(rows => {
+            return rows.json();
+          })
+          .then(students => {
+            let studentsArray = students.row.map(student => student.value);
+            let studentsString = `Welcome! ${studentsArray.join("; ")}`
+            return studentsString;
+          })
+          .then(welcomeString => {
+            document.getElementById("marquee").innerText = welcomeString
+          })
+          .catch(error => {
+            console.error(`New students fetch Error =\n`, error);
+          });
+      }
+    </script>
+    <style type="text/css">
+      .marquee-container {
+         height: 50px;
+         overflow: hidden;
+         position: relative;
+      }
+      .marquee-container h1 {
+        font-size: 3em;
+        color: #000000;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        line-height: 50px;
+        text-align: center;
+        /* Starting position */
+        transform:translateX(100%);
+        /* Apply animation to this element */	
+        animation: move-students 15s linear infinite;
+      }
+      /* Move it (define the animation) */
+      @keyframes move-students {
+        0% { 
+          transform: translateX(100%); 		
+        }
+        100% { 
+          transform: translateX(-100%); 
+        }
+      }
+    </style>
+  </head>
+  <body onLoad="getStudents();">
+    <div class="marquee-container">
+      <h1 id="marquee"></h1>
+    </div>
+  </body>
+</html>
