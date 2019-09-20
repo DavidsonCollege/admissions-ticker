@@ -37,7 +37,6 @@
          height: 80px;
          overflow: hidden;
          position: relative;
-         justify-content: center;
       }
       .marquee-container h1 {
         font-family: "Lato", "sans-serif";
@@ -47,7 +46,9 @@
         height: 100%;
         margin: 0;
         line-height: 80px;
-        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         /* Starting position */
         transform:translateX(100%);
         /* Apply animation to this element */	
