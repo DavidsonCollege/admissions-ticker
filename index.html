@@ -24,6 +24,7 @@
           })
           .then(welcomeString => {
             document.getElementById("marquee").innerText = welcomeString
+            // document.getElementById("marquee").style = `min-width: ${welcomeString.length * 24}px;`
           })
           .catch(error => {
             console.error(`New students fetch Error =\n`, error);
@@ -34,23 +35,25 @@
       body {
         background: #000000;
         color: #ffffff;
+        overflow: hidden;
       }
-      .marquee-container {
-         height: 100px;
+      #marquee-container {
+         height: 100%;
          overflow: hidden;
-         position: relative;
+         position: absolute;
+         display: flex;
+         justify-content: center;
+         align-items: center;
       }
-      .marquee-container h1 {
+      #marquee {
         font-family: "Lato", "sans-serif";
-        font-size: 5em;
+        font-size: 72px;
         position: absolute;
-        width: 100%;
-        height: 100%;
+        white-space: nowrap;
+        height: 100px;
         margin: 0;
         line-height: 100px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+
         /* Starting position */
         transform:translateX(100%);
         /* Apply animation to this element */	
