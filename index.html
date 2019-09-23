@@ -1,9 +1,9 @@
 <html>
   <head>
-    <title>Admissions new student ticker</title>
+    <title>Admissions Visitor Prospects Ticker</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <script type="text/javascript">
-      const getStudents = () => {
+      const getVisitors = () => {
         fetch ("https://admission.davidson.edu/manage/query/run?id=1615eb50-ebee-4e8c-a623-ac8915dcbe0f&h=e88865ed-4c1c-182f-72f6-3b87cd9c5ab3&cmd=service&output=json", {
             method: "GET",
             cache: "no-cache",
@@ -16,15 +16,16 @@
           .then(rows => {
             return rows.json();
           })
-          .then(students => {
-            let studentsArray = students.row.map(student => student.value);
-            let studentsString = `Welcome! ${studentsArray.join("; ")}`
-            console.log(`Updated students array:\n${JSON.stringify(studentsArray)}`);
-            return studentsString;
+          .then(visitors => {
+            let visitorsArray = visitors.row.map(visitor => visitor.value);
+            let visitorsString = `Welcome! ${visitorsArray.join("; ")}`
+            console.log(`Updated visitors array:\n${JSON.stringify(visitorsArray)}`);
+            return visitorsString;
           })
           .then(welcomeString => {
             document.getElementById("marquee").innerText = welcomeString
-            // document.getElementById("marquee").style = `min-width: ${welcomeString.length * 24}px;`
+            document.getElementById("marquee").style.animationDuration = `${10 + (welcomeString.length / 5)}s`
+            document.documentElement.style.setProperty('--marquee-calculated-width', `${document.getElementById("marquee").clientWidth}px`);
           })
           .catch(error => {
             console.error(`New students fetch Error =\n`, error);
@@ -32,6 +33,9 @@
       }
     </script>
     <style type="text/css">
+      :root {
+        --marquee-calculated-width: 0px;
+      }
       body {
         background: #000000;
         color: #ffffff;
@@ -47,30 +51,31 @@
       }
       #marquee {
         font-family: "Lato", "sans-serif";
-        font-size: 72px;
+        font-size: 5em;
         position: absolute;
         white-space: nowrap;
         height: 100px;
         margin: 0;
         line-height: 100px;
-
         /* Starting position */
         transform:translateX(100%);
         /* Apply animation to this element */	
-        animation: move-students 60s linear infinite;
+        animation-name: move-students;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
       }
       /* Move it (define the animation) */
       @keyframes move-students {
         0% { 
-          transform: translateX(100%); 		
+          right: 0%;	
         }
-        100% { 
-          transform: translateX(-100%); 
+        100% {
+          right: calc(100% + var(--marquee-calculated-width));
         }
       }
     </style>
   </head>
-  <body onLoad="getStudents();">
+  <body onLoad="getVisitors();">
     <div class="marquee-container">
       <h1 id="marquee"></h1>
     </div>
